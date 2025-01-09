@@ -26,13 +26,9 @@ This project is a basic template for web development that automates tasks such a
 ## Prerequisites
 Ensure you have the following installed on your system:
 
-- [Node.js](https://nodejs.org/
+- [Node.js](https://nodejs.org/) (version 14.x or higher)
 
-) (version 14.x or higher)
-
-- [npm](https://www.npmjs.com/
-
-) (version 6.x or higher)
+- [npm](https://www.npmjs.com/) (version 6.x or higher)
 
 ## Installation
 Clone the repository and install the dependencies:
