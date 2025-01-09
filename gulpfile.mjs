@@ -1,27 +1,36 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const pug = require('gulp-pug');
-const svgSprite = require('gulp-svg-sprite');
-const webpack = require('webpack-stream');
-const rename = require('gulp-rename');
-const cleanCSS = require('gulp-clean-css');
-const htmlmin = require('gulp-htmlmin');
-const browserSync = require('browser-sync').create();
-const { deleteAsync } = require('del');
-const cache = require('gulp-cache');
-const plumber = require('gulp-plumber');
-const newer = require('gulp-newer');
+import gulp from 'gulp';
+import gulpSass from 'gulp-sass';
+import * as dartSass from 'sass';
+import pug from 'gulp-pug';
+import svgSprite from 'gulp-svg-sprite';
+import webpackStream from 'webpack-stream';
+import rename from 'gulp-rename';
+import cleanCSS from 'gulp-clean-css';
+import htmlmin from 'gulp-htmlmin';
+import browserSync from 'browser-sync';
+import { deleteAsync } from 'del';
+import cache from 'gulp-cache';
+import plumber from 'gulp-plumber';
+import newer from 'gulp-newer';
+import flatten from 'gulp-flatten';
+
+const sass = gulpSass(dartSass);
 
 // Clean task
 gulp.task('clean', function () {
-  return deleteAsync(['dist/**', '!dist']);
+  return deleteAsync('dist');
 });
 
+// Serve and watch task
 gulp.task('serve', () => {
   browserSync.init({
     server: {
-      baseDir: './dist'
-    }
+      baseDir: './dist',
+      index: 'sitemap.html',
+      open: true,
+    },
+    notify: false,
+    files: ['dist/*', 'dist/**/*']
   });
 
   gulp.watch('src/sass/**/*.scss', gulp.series('styles', 'styles:min')).on('change', browserSync.reload);
@@ -43,7 +52,7 @@ gulp.task('styles', () => {
 
 // Minified CSS
 gulp.task('styles:min', () => {
-  return gulp.src('src/sass/**/*.scss')
+  return gulp.src('src/sass/style.scss')
     .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
     .pipe(cleanCSS())
@@ -53,27 +62,28 @@ gulp.task('styles:min', () => {
 
 // Non-minified HTML
 gulp.task('templates', () => {
-  return gulp.src('src/pug/**/*.pug')
+  return gulp.src('src/pug/pages/*.pug')
     .pipe(plumber())
     .pipe(cache(pug({ pretty: true })))
+    .pipe(flatten())
     .pipe(gulp.dest('dist'));
 });
 
 // Minified HTML
 gulp.task('templates:min', () => {
-  return gulp.src('src/pug/**/*.pug')
+  return gulp.src('src/pug/pages/*.pug')
     .pipe(plumber())
     .pipe(pug({ pretty: true }))
     .pipe(htmlmin({ collapseWhitespace: true }))
-    .pipe(rename({ suffix: '.min' }))
+    .pipe(flatten())
     .pipe(gulp.dest('dist'));
 });
 
 // Non-minified JS
 gulp.task('scripts', () => {
-  return gulp.src('src/js/modules/index.js', { allowEmpty: true })
+  return gulp.src('src/js/main.js', { allowEmpty: true })
     .pipe(plumber())
-    .pipe(webpack({
+    .pipe(webpackStream({
       mode: 'development',
       module: {
         rules: [{
@@ -96,9 +106,9 @@ gulp.task('scripts', () => {
 
 // Minified JS
 gulp.task('scripts:min', () => {
-  return gulp.src('src/js/modules/index.js', { allowEmpty: true })
+  return gulp.src('src/js/main.js', { allowEmpty: true })
     .pipe(plumber())
-    .pipe(webpack({
+    .pipe(webpackStream({
       mode: 'production',
       module: {
         rules: [{
@@ -155,16 +165,5 @@ gulp.task('assets', () => {
     .pipe(gulp.dest('dist/fonts'));
 });
 
-// Watch task
-gulp.task('watch', gulp.parallel('serve', () => {
-  gulp.watch('src/sass/**/*.scss', gulp.series('styles', 'styles:min'));
-  gulp.watch('src/pug/**/*.pug', gulp.series('templates', 'templates:min'));
-  gulp.watch('src/js/**/*.js', gulp.series('scripts', 'scripts:min'));
-  gulp.watch('src/svg/**/*.svg', gulp.series('svgs'));
-  gulp.watch('src/favicon/**/*', gulp.series('assets'));
-  gulp.watch(['src/img/**/*', '!src/img/sprite{,/**}'], gulp.series('assets'));
-  gulp.watch('src/fonts/**/*', gulp.series('assets'));
-}));
-
-gulp.task('default', gulp.series('clean', gulp.parallel('styles', 'templates', 'scripts', 'svgs', 'assets', 'watch')));
-gulp.task('build', gulp.series('clean', gulp.parallel('styles:min', 'templates:min', 'scripts:min', 'svgs', 'assets')));
+gulp.task('default', gulp.series('clean', 'svgs', gulp.parallel('styles:min', 'templates:min', 'scripts:min', 'assets', 'serve')));
+gulp.task('build', gulp.series('clean', 'svgs', gulp.parallel('styles', 'styles:min', 'templates', 'templates:min', 'scripts', 'scripts:min', 'assets')));

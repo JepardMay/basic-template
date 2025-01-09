@@ -1,0 +1,4 @@
+mixin icon(name, width, height)
+  svg(width=width, height=height, aria-hidden="true")&attributes(attributes)
+    use(xlink:href="#" + name)
+    
