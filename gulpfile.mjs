@@ -13,6 +13,7 @@ import cache from 'gulp-cache';
 import plumber from 'gulp-plumber';
 import newer from 'gulp-newer';
 import flatten from 'gulp-flatten';
+const webp = require('gulp-webp');
 
 const sass = gulpSass(dartSass);
 
@@ -165,5 +166,19 @@ gulp.task('assets', () => {
     .pipe(gulp.dest('dist/fonts'));
 });
 
+// Clean old .webp files
+gulp.task('clean-webp', () => {
+  return del(['src/img/**/*.webp']);
+});
+
+// Convert images to WebP
+gulp.task('convert-webp', () => {
+  return gulp.src(['src/img/**/*.{jpg,jpeg,png}', '!src/img/sprite{,/**}'])
+    .pipe(plumber())
+    .pipe(webp())
+    .pipe(gulp.dest(file => file.base));
+});
+
 gulp.task('default', gulp.series('clean', 'svgs', gulp.parallel('styles:min', 'templates:min', 'scripts:min', 'assets', 'serve')));
 gulp.task('build', gulp.series('clean', 'svgs', gulp.parallel('styles', 'styles:min', 'templates', 'templates:min', 'scripts', 'scripts:min', 'assets')));
+gulp.task('webp', gulp.series('clean-webp', 'convert-webp'));
