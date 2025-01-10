@@ -1,0 +1,34 @@
+// Colors
+//---------------------------------
+// https://www.htmlcsscolor.com/hex/334482
+
+// Default
+
+$color-default-black:             #000000;
+$color-default-white:             #ffffff;
+$color-transparent:               rgba(255, 255, 255, 0);
+
+// Base
+
+$color-lavender-blush:            #fef5fa;
+
+// Typography
+//---------------------------------
+
+$fs-default:                       16px;
+$ff--default:                      "Arial", sans-serif;
+
+// Animation
+//---------------------------------
+
+$trans-default:                    0.3s ease;
+
+// Viewports
+//---------------------------------
+
+$vp-375:                           375px;
+$vp-768:                           768px;
+$vp-1024:                          1024px;
+$vp-1280:                          1280px;
+$vp-1440:                          1440px;
+$vp-1920:                          1920px;
