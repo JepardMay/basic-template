@@ -73,8 +73,8 @@ basic-template/
 │   │   ├── components/      # Pug components
 │   │   └── pages/           # Pug pages
 │   └── sass/                # Sass files
-│   │   ├── components/      # Sass components
-│   │   ├── global/          # Sass global styles
+│       ├── components/      # Sass components
+│       ├── global/          # Sass global styles
 │       └── vendor/          # Styles from other sources
 │
 ├── gulpfile.mjs             # Gulp configuration
