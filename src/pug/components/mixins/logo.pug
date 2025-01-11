@@ -1,0 +1,7 @@
+mixin logo(notLink = false)
+  if (notLink)
+    span.logo&attributes(attributes)
+      +icon("icon", 40, 40)
+  else
+    a.logo(href="index.html")&attributes(attributes)
+      +icon("icon", 40, 40)

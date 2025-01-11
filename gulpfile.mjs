@@ -5,6 +5,7 @@ import pug from 'gulp-pug';
 import svgSprite from 'gulp-svg-sprite';
 import webpackStream from 'webpack-stream';
 import rename from 'gulp-rename';
+import autoprefixer from 'gulp-autoprefixer';
 import cleanCSS from 'gulp-clean-css';
 import htmlmin from 'gulp-htmlmin';
 import browserSync from 'browser-sync';
@@ -48,6 +49,10 @@ gulp.task('styles', () => {
   return gulp.src('src/sass/style.scss')
     .pipe(plumber())
     .pipe(cache(sass().on('error', sass.logError)))
+    .pipe(autoprefixer({
+      overrideBrowserslist: ['last 2 versions'],
+      cascade: false
+    }))
     .pipe(gulp.dest('dist/css'));
 });
 
@@ -56,6 +61,10 @@ gulp.task('styles:min', () => {
   return gulp.src('src/sass/style.scss')
     .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({
+      overrideBrowserslist: ['last 2 versions'],
+      cascade: false
+    }))
     .pipe(cleanCSS())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('dist/css'));
