@@ -1,9 +1,9 @@
 extends ../components/base/layout
 
 block variables
-  - const title = "Sitemap"
-  - const noHeader = true
-  - const noFooter = true
+  - const title = 'Sitemap';
+  - const noHeader = true;
+  - const noFooter = true;
   -
     const pages = [
       {
@@ -23,4 +23,4 @@ block main
       ol
         each page in pages
           li
-            a(href= page.src)= page.name
+            a(href=page.src)= page.name

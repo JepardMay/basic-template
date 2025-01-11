@@ -1,0 +1,23 @@
+@use '../global/variables' as *;
+@use '../global/mixins' as *;
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  color: $color-default-black;
+  background-color: $color-transparent;
+  border: 1px solid $color-default-black;
+  cursor: pointer;
+  transition:
+    background-color $trans-default,
+    color $trans-default,
+    border-color $trans-default;
+
+  @include hover {
+    color: $color-default-white;
+    background-color: $color-default-black;
+  }
+}

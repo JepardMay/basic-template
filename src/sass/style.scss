@@ -6,8 +6,8 @@
 // Global
 // ---------------------------------
 
-@use 'variables' as *;
-@use 'mixins' as *;
+@use 'global/variables' as *;
+@use 'global/mixins' as *;
 @use 'global/fonts' as *;
 @use 'global/reboot' as *;
 @use 'global/utils' as *;
@@ -16,4 +16,4 @@
 // Components
 // ---------------------------------
 
-@use 'components/btn'
+@use 'components/btn' as *;

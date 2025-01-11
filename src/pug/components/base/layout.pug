@@ -4,29 +4,28 @@ include ../components
 
 block variables
 
-html(lang="en")
+html(lang='en')
   head
     title= title
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(name="description", content="Project description")
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='Project description')
     //- favicon
     //- fonts preload
-    link(rel="stylesheet", href="css/style.min.css")
+    link(rel='stylesheet', href='css/style.min.css')
 
   body
-    +sprite()
+    +sprite
 
     if (!noHeader)
-      +header()
+      +header
 
     .wrapper
-
       block main
 
     if (!noFooter)
-      +footer()
+      +footer
 
     block modals
 
-    script(src="js/main.min.js")
+    script(src='js/main.min.js')

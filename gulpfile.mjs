@@ -13,7 +13,7 @@ import cache from 'gulp-cache';
 import plumber from 'gulp-plumber';
 import newer from 'gulp-newer';
 import flatten from 'gulp-flatten';
-const webp = require('gulp-webp');
+import webp from 'gulp-webp';
 
 const sass = gulpSass(dartSass);
 
@@ -45,7 +45,7 @@ gulp.task('serve', () => {
 
 // Non-minified CSS
 gulp.task('styles', () => {
-  return gulp.src('src/sass/**/*.scss')
+  return gulp.src('src/sass/style.scss')
     .pipe(plumber())
     .pipe(cache(sass().on('error', sass.logError)))
     .pipe(gulp.dest('dist/css'));
@@ -168,7 +168,7 @@ gulp.task('assets', () => {
 
 // Clean old .webp files
 gulp.task('clean-webp', () => {
-  return del(['src/img/**/*.webp']);
+  return deleteAsync(['src/img/**/*.webp']);
 });
 
 // Convert images to WebP
