@@ -108,7 +108,7 @@ gulp.task('scripts', () => {
         }]
       },
       output: {
-        filename: 'bundle.js'
+        filename: 'main.js'
       }
     }))
     .pipe(gulp.dest('dist/js'));
@@ -133,7 +133,7 @@ gulp.task('scripts:min', () => {
         }]
       },
       output: {
-        filename: 'bundle.min.js'
+        filename: 'main.min.js'
       }
     }))
     .pipe(gulp.dest('dist/js'));

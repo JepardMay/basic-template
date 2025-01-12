@@ -76,7 +76,7 @@
     "color-named": "never",
     "number-max-precision": 3,
     "selector-class-pattern": [
-      "^[a-z0-9]+([-_]?[a-z0-9]+)*(__[a-z0-9]+)?(--[a-z0-9]+)?$",
+      "^[a-z0-9]+(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)?$",
       {
         "message": "Selector should follow BEM naming convention (selector-class-pattern)"
       }
